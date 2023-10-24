@@ -1,0 +1,19 @@
+<html>
+    <!-- 修改网页头的名称 -->
+    <head>
+        <title>图片更换</title>
+        <!-- 引入bootstrap框架 -->
+        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+    <!-- 按钮 -->
+    <button type="button" class="btn btn-primary">更换图片</button>
+    <script>
+        // 随机访问当前文件夹下的图片
+        var img = document.getElementsByTagName("img")[0];
+        var btn = document.getElementsByTagName("button")[0];
+        btn.onclick = function(){
+            img.src = "test.jpg?"+Math.random();
+        }
+    </script>
+    <img src="test.jpg" alt="图片" width="200px" height="200px">
+</html>
