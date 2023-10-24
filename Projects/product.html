@@ -1,9 +1,37 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-    </head>
-    <body>
-        <h1>Product</h1>
-        <p>Product page</p>
-    </body>
+<head>
+    <title>流量资产管理</title>
+</head>
+<body>
+    <h1>流量资产管理</h1>
+
+    <h2>上传流量资产</h2>
+    <form action="upload.php" method="post" enctype="multipart/form-data">
+        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="submit" value="上传" name="submit">
+    </form>
+
+    <h2>删除流量资产</h2>
+    <form action="delete.php" method="post">
+        <label for="assetToDelete">资产名称或ID：</label>
+        <input type="text" id="assetToDelete" name="assetToDelete">
+        <input type="submit" value="删除" name="submit">
+    </form>
+
+    <h2>搜索流量资产</h2>
+    <form action="search.php" method="get">
+        <label for="searchKeyword">关键词：</label>
+        <input type="text" id="searchKeyword" name="searchKeyword">
+        <input type="submit" value="搜索" name="submit">
+    </form>
+
+    <h2>更新流量资产</h2>
+    <form action="update.php" method="post">
+        <label for="assetToUpdate">资产名称或ID：</label>
+        <input type="text" id="assetToUpdate" name="assetToUpdate">
+        <!-- 添加要更新的字段和输入框 -->
+        <input type="submit" value="更新" name="submit">
+    </form>
+</body>
 </html>
