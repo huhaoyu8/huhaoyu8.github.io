@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>主页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn {
+            background: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .register-link {
+            margin-top: 20px;
+        }
+
+        .register-link a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+            margin: 2vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Our Website</h1>
+        <div class="form-container" id="loginForm">
+            <form action="http://localhost:8080/user/login" method="post">
+                <div class="form-group">
+                    <label for="loginUsername">用户名</label>
+                    <input type="text" id="loginUsername" name="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">密&nbsp&nbsp&nbsp&nbsp码</label>
+                    <input type="password" id="loginPassword" name="loginPassword" required>
+                </div>
+                <!-- <button type="submit" class="btn">登录</button> -->
+            </form>
+        </div>
+
+        <div class="form-container" id="registerForm">
+            <h2>注册</h2>
+            <form action="http://localhost:8080/user/register" method="post">
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="isRoot">是否为Root</label>
+                    <select id="isRoot" name="isRoot">
+                        <option value="yes">是</option>
+                        <option value="no">否</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="securityLevel">安全等级</label>
+                    <select id="securityLevel" name="securityLevel">
+                        <option value="low">低</option>
+                        <option value="medium">中</option>
+                        <option value="high">高</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">注册</button>
+            </form>
+        </div>
+        <button class="btn" id="loginButton">登录</button>
+        <div class="register-link">
+            <span>还没有账号？</span>
+            <a id="registerLink">注册</a>
+        </div>
+    </div>
+    <script>
+        const loginButton = document.getElementById("loginButton");
+        const registerButton = document.getElementById("registerButton");
+        const loginForm = document.getElementById("loginForm");
+        const registerForm = document.getElementById("registerForm");
+
+        loginButton.addEventListener("click", function() {
+            loginForm.classList.add("active");
+            registerForm.classList.remove("active");
+        });
+
+        registerLink.addEventListener("click", function() {
+            registerForm.classList.add("active");
+            loginForm.classList.remove("active");
+            // 隐藏登录按钮
+            
+        });
+    </script>
+</body>
+</html>
