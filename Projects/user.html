@@ -16,13 +16,21 @@
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
-
-        h1 {
-            font-size: 24px;
-        }
-
         p {
             font-size: 16px;
+        }
+
+        .btn {
+            background: #007BFF;
+            color: #fff;
+            padding: 5px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #0056b3;
         }
     </style>
 </head>
@@ -32,6 +40,18 @@
         <p><strong>用户名:</strong> JohnDoe</p>
         <p><strong>是否为Root:</strong> 是</p>
         <p><strong>安全等级:</strong> 高</p>
+        <!-- 居中显示 -->
+        <input class="pwd_contaniner" type="text" placeholder="请输入更改后的密码" style="display: none;margin: 2vh auto;"></input>
+        <button class="btn">修改密码</button>
     </div>
+    <script>
+        //  点击按钮，显示pwd_contaniner
+        var btn = document.querySelector('.btn');
+        var pwd_contaniner = document.querySelector('.pwd_contaniner');
+        btn.onclick = function() {
+            pwd_contaniner.style.display = 'block';
+            btn.innerHTML="提交";
+        }
+    </script>
 </body>
 </html>

@@ -59,44 +59,41 @@
         <h1>Welcome to Our Website</h1>
         <div class="form-container" id="loginForm">
             <form action="http://localhost:8080/user/login" method="post">
-                <div class="form-group">
                     <label for="loginUsername">用户名</label>
                     <input type="text" id="loginUsername" name="loginUsername" required>
-                </div>
-                <div class="form-group">
+                    <br/>
                     <label for="loginPassword">密&nbsp&nbsp&nbsp&nbsp码</label>
                     <input type="password" id="loginPassword" name="loginPassword" required>
-                </div>
-                <!-- <button type="submit" class="btn">登录</button> -->
+                    <br/><br/>
+                    <button type="submit" class="btn">登录</button>
             </form>
         </div>
-
         <div class="form-container" id="registerForm">
             <h2>注册</h2>
             <form action="http://localhost:8080/user/register" method="post">
-                <div class="form-group">
-                    <label for="username">用户名</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">密&nbsp&nbsp&nbsp&nbsp码</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <div class="form-group">
-                    <label for="isRoot">是否为Root</label>
-                    <select id="isRoot" name="isRoot">
-                        <option value="yes">是</option>
-                        <option value="no">否</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="securityLevel">安全等级</label>
-                    <select id="securityLevel" name="securityLevel">
-                        <option value="low">低</option>
-                        <option value="medium">中</option>
-                        <option value="high">高</option>
-                    </select>
-                </div>
+                <label for="username">用户名</label>
+                <input type="text" id="username" name="username" required>
+                <br>
+                <label for="password">密&nbsp&nbsp&nbsp&nbsp码</label>
+                <input type="password" id="password" name="passwd" required>
+                <br>
+                <label for="isRoot">是否为Root</label>
+                <input type="radio" id="isRoot" name="isroot" value="true" checked="checked"/>是
+                <input type="radio" id="isRoot" name="isroot" value="false"/>否
+                <label for="securityLevel">安全等级</label>
+                <select id="securityLevel" name="secure_level">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                <br><br/>
                 <button type="submit" class="btn">注册</button>
             </form>
         </div>
@@ -115,6 +112,7 @@
 
         loginButton.addEventListener("click", function() {
             loginForm.classList.add("active");
+            loginButton.style.display = "none";
             registerForm.classList.remove("active");
         });
 
