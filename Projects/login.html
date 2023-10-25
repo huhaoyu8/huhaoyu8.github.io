@@ -24,6 +24,8 @@
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
+            text-align: center;
+            margin: 2vh auto;
             cursor: pointer;
         }
 
@@ -44,10 +46,6 @@
         .Register a:hover {
             text-decoration: underline;
         }
-        .form-container {
-            display: none;
-        }
-
         .form-container.active {
             display: block;
             margin: 2vh;
@@ -57,26 +55,13 @@
 <body>
     <div class="container">
         <h1>Welcome to Our Website</h1>
-        <div class="form-container" id="loginForm">
-            <form action="http://localhost:8080/user/login" method="post">
-                    <label for="loginUsername">用户名</label>
-                    <input type="text" id="loginUsername" name="loginUsername" required>
-                    <br/>
-                    <label for="loginPassword">密&nbsp&nbsp&nbsp&nbsp码</label>
-                    <input type="password" id="loginPassword" name="loginPassword" required>
-                    <br/><br/>
-                    <button type="submit" class="btn">登录</button>
-            </form>
-        </div>
-        <div class="form-container" id="registerForm">
-            <h2>注册</h2>
-            <form action="http://localhost:8080/user/register" method="post">
-                <label for="username">用户名</label>
-                <input type="text" id="username" name="username" required>
-                <br>
-                <label for="password">密&nbsp&nbsp&nbsp&nbsp码</label>
-                <input type="password" id="password" name="passwd" required>
-                <br>
+        <div class="form-container" style="display: none;">
+            <label for="usernameLabel">用户名</label>
+            <input type="text" id="username" name="username"/>
+            <br/>
+            <label for="password">密&nbsp&nbsp&nbsp&nbsp码</label>
+            <input type="password" id="password" name="password"/>
+            <div class="RegisterDiv" style="display: none;">
                 <label for="isRoot">是否为Root</label>
                 <input type="radio" id="isRoot" name="isroot" value="true" checked="checked"/>是
                 <input type="radio" id="isRoot" name="isroot" value="false"/>否
@@ -93,35 +78,85 @@
                     <option value="9">9</option>
                     <option value="10">10</option>
                 </select>
-                <br><br/>
-                <button type="submit" class="btn">注册</button>
-            </form>
+            </div>
         </div>
-        <button class="btn" id="loginButton">登录</button>
-        <div class="Register">
+        <button class="btn" id="Button"onclick="loginShow()">登录</button>
+        <button class="btn" id="submitButton" onclick="func()" style="display: none;">登录</button>
+        <div class="Words">
             <span>还没有账号？</span>
-            <a id="registerLink">注册</a>
+            <a id="Link" onclick="registerShow()" style="text-decoration: underline;color: blue;">注册</a>
         </div>
     </div>
     <script>
-        const loginButton = document.getElementById("loginButton");
-        const Register = document.querySelector(".Register");
-        const registerButton = document.getElementById("registerButton");
-        const loginForm = document.getElementById("loginForm");
-        const registerForm = document.getElementById("registerForm");
-
-        loginButton.addEventListener("click", function() {
-            loginForm.classList.add("active");
-            loginButton.style.display = "none";
-            registerForm.classList.remove("active");
-        });
-
-        registerLink.addEventListener("click", function() {
-            registerForm.classList.add("active");
-            loginForm.classList.remove("active");
-            loginButton.style.display = "none";
-            Register.style.display = "none";
-        });
+        function loginShow(){
+            document.querySelector('#Button').style.display='none';
+            document.querySelector('#submitButton').innerHTML='登录';
+            document.querySelector('#submitButton').style.display='block';
+            document.querySelector('.Words').innerHTML='<span>还没有账号？</span><a id="Link" onclick="registerShow()"style="text-decoration: underline;color: blue;">注册</a>';
+            document.querySelector('.form-container').style.display='block';
+            document.querySelector('.RegisterDiv').style.display='none';
+        }
+        function func(){
+            var username=document.querySelector('#username').value;
+            localStorage.setItem('username',username);
+            var submitButton=document.querySelector('#submitButton').innerHTML;
+            if(submitButton=='登录'){
+                login();
+            }
+            else{
+                register();
+            }
+        }
+        function registerShow(){
+            document.querySelector('#Button').style.display='none';
+            document.querySelector('#submitButton').innerHTML='注册';
+            document.querySelector('#submitButton').style.display='block';
+            document.querySelector('.Words').innerHTML='<span>已有账号？</span><a id="Link" onclick="loginShow()"style="text-decoration: underline;color: blue;">登录</a>';
+            document.querySelector('.form-container').style.display='block';
+            document.querySelector('.RegisterDiv').style.display='block';
+        }
+        function login(){
+            var username=document.querySelector('#username').value;
+            var passwd=document.querySelector('#passwd').value;
+            fetch('http://localhost:8080/user/login',{
+                method:'POST',
+                body:JSON.stringify({username,passwd}),
+                headers:{
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(Response=>Response.json())
+            .then(data=>{
+                if(data.token){
+                    localStorage.setItem('token',data.token);
+                }
+            })
+            .catch(error=>{
+                console.error('Error:',error);
+            })
+        }
+        function register(){
+            var username=document.querySelector('#username').value;
+            var passwd=document.querySelector('#passwd').value;
+            var isroot=document.querySelector('#isRoot').value;
+            var secure_level=document.querySelector('#securityLevel').value;
+            fetch('http://localhost:8080/user/register',{
+                method:'POST',
+                body:JSON.stringify({username,passwd,isroot,secure_level}),
+                headers:{
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(Response=>Response.json())
+            .then(data=>{
+                if(data.token){
+                    localStorage.setItem('token',data.token);
+                }
+            })
+            .catch(error=>{
+                console.error('Error:',error);
+            })
+        }
     </script>
 </body>
 </html>
