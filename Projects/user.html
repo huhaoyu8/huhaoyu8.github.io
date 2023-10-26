@@ -20,16 +20,18 @@
             font-size: 16px;
         }
 
-        .btn {
+        button{
             background: #007BFF;
             color: #fff;
             padding: 5px 30px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            text-align: center;
+            margin: auto;
         }
 
-        .btn:hover {
+        button:hover{
             background: #0056b3;
         }
     </style>
@@ -41,38 +43,59 @@
         <p><strong>是否为Root:</strong> 是</p>
         <p><strong>安全等级:</strong> 高</p>
         <input id="pwd_contaniner" type="text" placeholder="请输入更改后的密码" style="display: none;margin: 2vh auto;"></input>
-        <button class="btn">修改密码</button>
+        <button id="submitShowBtn" onclick="submitShow()">修改密码</button>
+        <form id="formSubmit" action="http://localhost:8080/user/updatapasswd" style="display: none;">
+            <input type="hidden" name="username" id="usernameInput" value="">
+            <input type="text" name="passwd" placeholder="请输入更改后的密码" style="margin: 2vh auto;" required></input>
+            <input type="hidden" name="token" id="tokenInput" value="">
+            <br>
+            <button onclick="submitForm()">提交</button>
+            <button onclick="cancelForm()" >取消</button>
+        </form>
     </div>
     <script>
-        var btn = document.querySelector('.btn');
-        var pwd_contaniner = document.querySelector('#pwd_contaniner');
-        btn.onclick = function() {
-            if(btn.innerHTML == "提交") {
-                var username=localStorage.getItem('username');
-                var passwd=pwd_contaniner.value;
-                fetch('http://localhost:8080/user/updatapasswd',{
-                    method:'POST',
-                    body:JSON.stringify({username,passwd}),
-                    headers:{
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-                .then(Response=>Response.json())
-                .then(data=>{
-                    if(data.token){
-                        localStorage.setItem('token',data.token);
-                    }
-                })
-                .catch(error=>{
-                    console.error('Error:',error);
-                })
-                pwd_contaniner.style.display = 'none';
-                btn.innerHTML="修改密码";
-            }else if(btn.innerHTML == "修改密码") {
-                pwd_contaniner.style.display = 'block';
-                btn.innerHTML="提交";
-            }
+        function cancelForm(){
+            document.getElementById("formSubmit").style.display = "none";
+            document.getElementById("submitShowBtn").style.display = "block";
         }
+        function submitShow(){
+            document.getElementById("formSubmit").style.display = "block";
+            document.getElementById("submitShowBtn").style.display = "none";
+        }
+        function submitForm(){
+            document.getElementById("usernameInput").value = localStorage.getItem('username');
+            document.getElementById("tokenInput").value = localStorage.getItem('token');
+            document.getElementById("formSubmit").submit();
+        }
+        // var btn = document.querySelector('.btn');
+        // var pwd_contaniner = document.querySelector('#pwd_contaniner');
+        // btn.onclick = function() {
+        //     if(btn.innerHTML == "提交") {
+        //         var username=localStorage.getItem('username');
+        //         var passwd=pwd_contaniner.value;
+        //         fetch('http://localhost:8080/user/updatapasswd',{
+        //             method:'POST',
+        //             body:JSON.stringify({username,passwd}),
+        //             headers:{
+        //                 'Content-Type': 'multipart/form-data'
+        //             }
+        //         })
+        //         .then(Response=>Response.json())
+        //         .then(data=>{
+        //             if(data.token){
+        //                 localStorage.setItem('token',data.token);
+        //             }
+        //         })
+        //         .catch(error=>{
+        //             console.error('Error:',error);
+        //         })
+        //         pwd_contaniner.style.display = 'none';
+        //         btn.innerHTML="修改密码";
+        //     }else if(btn.innerHTML == "修改密码") {
+        //         pwd_contaniner.style.display = 'block';
+        //         btn.innerHTML="提交";
+        //     }
+        // }
     </script>
 </body>
 </html>

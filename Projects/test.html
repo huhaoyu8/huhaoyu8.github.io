@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>流量资产查看</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        button:hover {
+            background-color: #005D80;
+        }
+        
+        #overlay{
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        #addForm {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            z-index: 2;
+        }
+        .btn {
+            background: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            margin: 2vh auto;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="overlay"></div>
+    <div id="addForm">
+        <form>
+            <label for="item">项目:</label>
+            <input type="text" id="item" name="item">
+            <br>
+            <label for="quantity">数量:</label>
+            <input type="number" id="quantity" name="quantity">
+            <br>
+            <button type="submit">提交</button>
+        </form>
+    </div>
+    <!-- <h1>流量资产查看</h1> -->
+    <form class="forms" style="text-align: center;">
+        <input type="text" name="pname" placeholder="请输入资产名" style="font-size: large;" required>
+        <input type="hidden" name="token" value=""required>
+        <select id="securityLevel" name="secure_level" style="font-size: large;"required>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+    </form>
+    <button class="btn" onclick="search()" >搜索</button>
+    <button class="btn" onclick="addProduct()">添加资产</button>
+    <table id="assetTable">
+        <thead>
+            <tr>
+                <th>资产名</th>
+                <th>资产安全等级</th>
+                <th>最后一次维护时间</th>
+                <th>是否维护</th>
+                <th>asset_class</th>
+                <th>brand_name</th>
+                <th>work_dpt</th>
+                <th colspan="2">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 这里将通过JavaScript添加资产数据行 -->
+        </tbody>
+    </table>
+    <script src="script.js"></script>
+</body>
+</html>
