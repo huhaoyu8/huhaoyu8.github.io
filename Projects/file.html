@@ -2,18 +2,50 @@
 <html>
 <head>
     <title>文件上传和下载</title>
+    <style>
+        .btn {
+            background: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            margin: 2vh auto;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <h1 style="text-align: center;">上传和下载文件</h1>
 
     <h2>上传文件</h2>
-    <form action="upload.php" method="post" enctype="multipart/form-data">
-        <input type="file" name="fileToUpload" id="fileToUpload">
-        <input type="submit" value="上传文件" name="submit">
+    <form id="downloadFile" action="http://localhost:8080/property/upexc" method="post" enctype="multipart/form-data">
+        <input type="file" name="fileToUpload" id="fileToUpload" style="font-size: large;" required>
+        <input type="hidden" name="token" value=""required>
+        <button class="btn" onclick="updateClock()">上传</button>
     </form>
 
     <h2>下载文件</h2>
-    <a href="http://localhost:8080/property/dwexcel">下载文件</a>
-
+    <form id="downloadFile" action="http://localhost:8080/property/dwexcel">
+        <input type="text" name="ppt_name" placeholder="请输入文件名" style="font-size: large;" required>
+        <input type="hidden" id="secure_level" name="secure_level" value=""required>
+        <input type="hidden" id="token" name="token" value=""required>
+        <button class="btn" onclick="downloadClick()">下载</button>
+    </form>
+    <script>
+        function downloadClick(){
+            document.getElementById("secure_level").value = localStorage.getItem('secure_level');
+            document.getElementById("token").value = localStorage.getItem('token');
+            document.getElementById("downloadFile").submit();
+        }
+        function updateClock() {
+            document.getElementById("token").value = localStorage.getItem('token');
+            document.getElementById("downloadFile").submit();
+        }
+    </script>
 </body>
 </html>

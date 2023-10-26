@@ -74,44 +74,42 @@
 </head>
 <body>
     <div id="overlay"></div>
-    <div id="addForm">
-        <form>
-            <label for="item">资产名称</label>
-            <input type="text" id="pname" name="pname" required>
-            <br>
-            <label for="quantity">资产安全等级</label>
-            <input type="number" id="secure_level" name="secure_level" min="1" max="10" required>
-            <br>
-            <label for="quantity">最后一次维护时间</label>
-            <input type="datetime-local" id="update_time" name="update_time" required>
-            <br>
-            <label for="quantity">是否维护中</label>
-            <input type="radio" id="ismaintained" name="ismaintained" value="true" required>是
-            <input type="radio" id="ismaintained" name="ismaintained" value="false" required>否
-            <br>
-            <label for="quantity">资产贵重等级</label>
-            <input type="number" id="asset_class" name="secure_level" min="1" max="10" required>
-            <br>
-            <label for="quantity">资产厂商名</label>
-            <input type="number" id="brand_name" name="brand_name" required>
-            <br>
-            <label for="quantity">资产隶属部门</label>
-            <input type="text" id="brand_name" name="brand_name"required>
-            <br>
-            <input type="hidden" id="tokenInput" name="token" value=""required>
-            <div style="display: flex;justify-content: space-between">
-            <button onclick="closeForm()">取消</button>
-            <button id="submitOrupdate" style="text-align: right;" onclick="submitForm()">提交/更新</button>
-            </div>
-        </form>
-    </div>
+    <form id="addForm">
+        <label for="item">资产名称</label>
+        <input type="text" id="pname" name="pname" required>
+        <br>
+        <label for="quantity">资产安全等级</label>
+        <input type="number" id="secure_level" name="secure_level" min="1" max="10" required>
+        <br>
+        <label for="quantity">最后一次维护时间</label>
+        <input type="datetime-local" id="update_time" name="update_time" required>
+        <br>
+        <label for="quantity">是否维护中</label>
+        <input type="radio" id="ismaintained" name="ismaintained" value="true" required>是
+        <input type="radio" id="ismaintained" name="ismaintained" value="false" required>否
+        <br>
+        <label for="quantity">资产贵重等级</label>
+        <input type="number" id="asset_class" name="secure_level" min="1" max="10" required>
+        <br>
+        <label for="quantity">资产厂商名</label>
+        <input type="number" id="brand_name" name="brand_name" required>
+        <br>
+        <label for="quantity">资产隶属部门</label>
+        <input type="text" id="brand_name" name="brand_name"required>
+        <br>
+        <input type="hidden" id="tokenInput" name="token" value=""required>
+        <div style="display: flex;justify-content: space-between">
+        <button onclick="closeForm()">取消</button>
+        <button id="submitOrupdate" style="text-align: right;" onclick="submitForm()">提交/更新</button>
+        </div>
+    </form>
     <form class="searchForm" style="text-align: center;" action="http://localhost:8080/property/search">
         <input type="text" name="pname" placeholder="请输入资产名" style="font-size: large;" required>
         &nbsp;&nbsp;
         <a style="font-size: large;">资产安全等级</a>
         <input type="number" name="secure_level"  style="font-size: large;" min="1" max="10" required>
-        <input type="hidden" name="token" value=""required>
-        <button type="submit" class="btn" >搜索</button>
+        <input type="hidden" id="searchToken" name="token" value=""required>
+        <button class="btn" onclick="searchForm()">搜索</button>
     </form>
     <button class="btn" onclick="addProduct()" style="position: absolute;right: 260px;top:8px;">添加资产</button>
     <table id="assetTable">
