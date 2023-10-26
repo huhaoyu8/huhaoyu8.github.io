@@ -66,18 +66,7 @@
                 <input type="radio" id="isRoot" name="isroot" value="true" checked="checked"/>是
                 <input type="radio" id="isRoot" name="isroot" value="false"/>否
                 <label for="securityLevel">安全等级</label>
-                <select id="securityLevel" name="secure_level">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
+                <input type="number" id="secure_level" name="secure_level" min="1" max="10">
             </div>
         </div>
         <button class="btn" id="Button"onclick="loginShow()">登录</button>

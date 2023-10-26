@@ -1,3 +1,9 @@
+function submitForm(){
+    document.getElementById("tokeninput").value = localStorage.getItem("token");
+    document.getElementById("form").submit();
+    closeForm();
+}
+
 function search(){
 
 }
@@ -5,6 +11,11 @@ function search(){
 function addProduct(){
     document.getElementById("overlay").style.display = "block";  
     document.getElementById("addForm").style.display = "block";
+}
+
+function closeForm(){
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("addForm").style.display = "none";
 }
 
 // 获取表格的引用
