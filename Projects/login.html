@@ -70,7 +70,8 @@
             </div>
         </div>
         <button class="btn" id="Button"onclick="loginShow()">登录</button>
-        <button class="btn" id="submitButton" onclick="func()" style="display: none;">登录</button>
+        <button class="btn" id="loginButton" onclick="login()" style="display: none;">登录</button>
+        <button class="btn" id="registerButton" onclick="register()" style="display: none;">注册</button>
         <div class="Words">
             <span>还没有账号？</span>
             <a id="Link" onclick="registerShow()" style="text-decoration: underline;color: blue;">注册</a>
@@ -79,34 +80,27 @@
     <script>
         function loginShow(){
             document.querySelector('#Button').style.display='none';
-            document.querySelector('#submitButton').innerHTML='登录';
-            document.querySelector('#submitButton').style.display='block';
+            // document.querySelector('#submitButton').innerHTML='登录';
+            document.querySelector('#loginButton').style.display='block';
+            document.querySelector('#registerButton').style.display='none';
             document.querySelector('.Words').innerHTML='<span>还没有账号？</span><a id="Link" onclick="registerShow()"style="text-decoration: underline;color: blue;">注册</a>';
             document.querySelector('.form-container').style.display='block';
             document.querySelector('.RegisterDiv').style.display='none';
         }
-        function func(){
-            var username=document.querySelector('#username').value;
-            localStorage.setItem('username',username);
-            localStorage.setItem('isRoot',document.querySelector('#isRoot').value);	
-            localStorage.setItem('secure_level',document.querySelector('#securityLevel').value);
-            var submitButton=document.querySelector('#submitButton').innerHTML;
-            if(submitButton=='登录'){
-                login();
-            }
-            else{
-                register();
-            }
-        }
         function registerShow(){
             document.querySelector('#Button').style.display='none';
-            document.querySelector('#submitButton').innerHTML='注册';
-            document.querySelector('#submitButton').style.display='block';
+            // document.querySelector('#submitButton').innerHTML='注册';
+            document.querySelector('#registerButton').style.display='block';
+            document.querySelector('#loginButton').style.display='none';
             document.querySelector('.Words').innerHTML='<span>已有账号？</span><a id="Link" onclick="loginShow()"style="text-decoration: underline;color: blue;">登录</a>';
             document.querySelector('.form-container').style.display='block';
             document.querySelector('.RegisterDiv').style.display='block';
         }
         function login(){
+            alert("登录成功");
+            localStorage.setItem('username',document.querySelector('#username').value);
+            localStorage.setItem('isRoot',document.querySelector('#isRoot').value);	
+            localStorage.setItem('secure_level',document.querySelector('#securityLevel').value);
             var username=document.querySelector('#username').value;
             var passwd=document.querySelector('#passwd').value;
             fetch('http://localhost:8080/user/login',{
@@ -128,6 +122,10 @@
             })
         }
         function register(){
+            alert("注册成功");
+            localStorage.setItem('username',document.querySelector('#username').value);
+            localStorage.setItem('isRoot',document.querySelector('#isRoot').value);	
+            localStorage.setItem('secure_level',document.querySelector('#securityLevel').value);
             var username=document.querySelector('#username').value;
             var passwd=document.querySelector('#passwd').value;
             var isroot=document.querySelector('#isRoot').value;
