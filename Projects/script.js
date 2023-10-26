@@ -4,12 +4,17 @@ function submitForm(){
     closeForm();
 }
 
-function search(){
-
-}
-
 function addProduct(){
     document.getElementById("overlay").style.display = "block";  
+    document.getElementById("addForm").action = "http://localhost:8080/property/upload";
+    document.getElementById("addForm").style.display = "block";
+    document.getElementById("submitOrupdate").textContent = "上传";
+}
+
+function updateProduct(){
+    document.getElementById("overlay").style.display = "block";  
+    document.getElementById("addForm").action = "http://localhost:8080/property/updata";
+    document.getElementById("submitOrupdate").textContent = "更新";
     document.getElementById("addForm").style.display = "block";
 }
 
@@ -51,9 +56,6 @@ for (let i = 0; i < assetData.length; i++) {
     // 添加"更新"按钮
     const updateButton = document.createElement("button");
     updateButton.textContent = "更新";
-    updateButton.onclick = function() {
-        // 在这里添加更新资产的逻辑
-        // 可以使用 newRow 对象获取该行的数据，然后执行更新操作
-    };
+    updateButton.onclick = updateProduct;
     newRow.insertCell(data.length + 1).appendChild(updateButton);
 }
