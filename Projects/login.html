@@ -55,23 +55,36 @@
 <body>
     <div class="container">
         <h1>Welcome to Our Website</h1>
-        <div class="form-container" style="display: none;">
-            <label for="usernameLabel">用户名</label>
-            <input type="text" id="username" name="username"/>
-            <br/>
-            <label for="password">密&nbsp&nbsp&nbsp&nbsp码</label>
-            <input type="password" id="password" name="passwd"/>
-            <div class="RegisterDiv" style="display: none;">
+        <div class="form-container" id="loginDiv"style="display: none;">
+            <form action="http://localhost:8080/user/login" id="'loginForm'">
+                <label for="usernameLabel">用户名</label>
+                <input type="text" id="username" name="username" required/>
+                <br/>
+                <label for="password">密&nbsp&nbsp&nbsp&nbsp码</label>
+                <input type="password" id="password" name="passwd" required/>
+                <br>
+                <button class="btn" onclick="login()">登录</button>
+            </form>
+        </div>
+        <div class="form-container" id="registerDiv" style="display: none;">
+            <form action="http://localhost:8080/user/register" id="registerForm">
+                <label for="usernameLabel">用户名</label>
+                <input type="text" id="username" name="username" required/>
+                <br>
+                <label for="password">密&nbsp&nbsp&nbsp&nbsp码</label>
+                <input type="password" id="password" name="passwd" required/>
+                <br>
                 <label for="isRoot">是否为Root</label>
-                <input type="radio" id="isRoot" name="isroot" value="true" checked="checked"/>是
-                <input type="radio" id="isRoot" name="isroot" value="false"/>否
+                <input type="radio" id="isRoot" name="isroot" value="true" checked="checked" required/>是
+                <input type="radio" id="isRoot" name="isroot" value="false" required/>否
+                <br>
                 <label for="securityLevel">安全等级</label>
-                <input type="number" id="secure_level" name="secure_level" min="1" max="10">
-            </div>
+                <input type="number" id="secure_level" name="secure_level" min="1" max="10" required/>
+                <br>
+                <button class="btn" onclick="register()">注册</button>
+            </form>
         </div>
         <button class="btn" id="Button"onclick="loginShow()">登录</button>
-        <button class="btn" id="loginButton" onclick="login()" style="display: none;">登录</button>
-        <button class="btn" id="registerButton" onclick="register()" style="display: none;">注册</button>
         <div class="Words">
             <span>还没有账号？</span>
             <a id="Link" onclick="registerShow()" style="text-decoration: underline;color: blue;">注册</a>
@@ -79,74 +92,60 @@
     </div>
     <script>
         function loginShow(){
-            document.querySelector('#Button').style.display='none';
-            // document.querySelector('#submitButton').innerHTML='登录';
-            document.querySelector('#loginButton').style.display='block';
-            document.querySelector('#registerButton').style.display='none';
+            document.getElementById('loginDiv').style.display='block';
+            document.getElementById('registerDiv').style.display='none';
+            document.getElementById('Button').style.display='none';
             document.querySelector('.Words').innerHTML='<span>还没有账号？</span><a id="Link" onclick="registerShow()"style="text-decoration: underline;color: blue;">注册</a>';
-            document.querySelector('.form-container').style.display='block';
-            document.querySelector('.RegisterDiv').style.display='none';
         }
         function registerShow(){
-            document.querySelector('#Button').style.display='none';
-            // document.querySelector('#submitButton').innerHTML='注册';
-            document.querySelector('#registerButton').style.display='block';
-            document.querySelector('#loginButton').style.display='none';
+            document.getElementById('loginDiv').style.display='none';
+            document.getElementById('registerDiv').style.display='block';
+            document.getElementById('Button').style.display='none';
             document.querySelector('.Words').innerHTML='<span>已有账号？</span><a id="Link" onclick="loginShow()"style="text-decoration: underline;color: blue;">登录</a>';
-            document.querySelector('.form-container').style.display='block';
-            document.querySelector('.RegisterDiv').style.display='block';
         }
         function login(){
-            alert("登录成功");
-            localStorage.setItem('username',document.querySelector('#username').value);
-            localStorage.setItem('isRoot',document.querySelector('#isRoot').value);	
-            localStorage.setItem('secure_level',document.querySelector('#securityLevel').value);
-            var username=document.querySelector('#username').value;
-            var passwd=document.querySelector('#passwd').value;
-            fetch('http://localhost:8080/user/login',{
-                method:'POST',
-                body:JSON.stringify({username,passwd}),
-                headers:{
-                    'Content-Type': 'multipart/form-data'
+            var name=document.querySelector('.username').value;
+            localStorage.setItem('username',name);
+            document.getElementById('loginForm').submit();
+            var url="http://localhost:8080/user/back_infor?username="+name;
+            fetch(url)
+            .then(function (response) {
+                if (response.ok) {
+                    return response.text(); 
+                } else {
+                console.error("请求失败，状态码：" + response.status);
                 }
             })
-            .then(Response=>Response.json())
-            .then(data=>{
-                if(data.token){
-                    localStorage.setItem('token',data.token);
-                    window.location.href='index.html';
-                }
+            .then(function (data) {
+                localStorage.setItem('token',data);
+                window.location.href='index.html';
             })
-            .catch(error=>{
-                console.error('Error:',error);
-            })
+            .catch(function (error) {
+                console.error("出现错误：" + error);
+            });
         }
         function register(){
-            alert("注册成功");
-            localStorage.setItem('username',document.querySelector('#username').value);
-            localStorage.setItem('isRoot',document.querySelector('#isRoot').value);	
-            localStorage.setItem('secure_level',document.querySelector('#securityLevel').value);
-            var username=document.querySelector('#username').value;
-            var passwd=document.querySelector('#passwd').value;
-            var isroot=document.querySelector('#isRoot').value;
-            var secure_level=document.querySelector('#securityLevel').value;
-            fetch('http://localhost:8080/user/register',{
-                method:'POST',
-                body:JSON.stringify({username,passwd,isroot,secure_level}),
-                headers:{
-                    'Content-Type': 'multipart/form-data'
+            localStorage.setItem('isroot',document.querySelector('.isroot').value);
+            localStorage.setItem('secure_level',document.querySelector('.secure_level').value);
+            var name=document.querySelector('.username').value;
+            localStorage.setItem('username',name);
+            document.getElementById('registerForm').submit();
+            var url="http://localhost:8080/user/back_infor?username="+name;
+            fetch(url)
+            .then(function (response) {
+                if (response.ok) {
+                    return response.text(); 
+                } else {
+                console.error("请求失败，状态码：" + response.status);
                 }
             })
-            .then(Response=>Response.json())
-            .then(data=>{
-                if(data.token){
-                    localStorage.setItem('token',data.token);
-                    window.location.href='index.html';
-                }
+            .then(function (data) {
+                localStorage.setItem('token',data);
+                window.location.href='index.html';
             })
-            .catch(error=>{
-                console.error('Error:',error);
-            })
+            .catch(function (error) {
+                console.error("出现错误：" + error);
+            });
         }
     </script>
 </body>

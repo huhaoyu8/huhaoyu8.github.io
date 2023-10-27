@@ -1,0 +1,48 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <form action="http://localhost:8080/user/login">
+            <input type="hidden" name="username" value="jim">
+            <input type="hidden" name="password" value="999">
+            <button onclick="submit">Submit</button>
+        </form>
+        <script>
+            function submit(){
+                fetch('http://localhost:8080/user/login',{
+                method:'POST',
+                body:JSON.stringify({username,passwd}),
+                headers:{
+                    'Content-Type': 'multipart/form-data'
+                }
+                })
+            // .then(Response=>Response.json())
+            // .then(data=>{
+            //     if(data.token){
+            //         localStorage.setItem('token',data.token);
+            //         window.location.href='index.html';
+            //     }
+            // })
+            // .catch(error=>{
+            //     console.error('Error:',error);
+            // })
+            }
+            function get(){
+                fetch('http://localhost:8080/user/login',{
+                method:'GET',
+                headers:{
+                    'Content-Type': 'multipart/form-data'
+                }
+                })
+                .then(Response=>Response.json())
+                .then(data=>{
+                    if(data.token){
+                        localStorage.setItem('token',data.token);
+                        window.location.href='index.html';
+                    }
+                })
+            }
+        </script>
+    </body>
+</html>
