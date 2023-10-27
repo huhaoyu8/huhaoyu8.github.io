@@ -104,25 +104,26 @@
             document.querySelector('.Words').innerHTML='<span>已有账号？</span><a id="Link" onclick="loginShow()"style="text-decoration: underline;color: blue;">登录</a>';
         }
         function login(){
-            var name=document.querySelector('.username').value;
-            localStorage.setItem('username',name);
-            document.getElementById('loginForm').submit();
-            var url="http://localhost:8080/user/back_infor?username="+name;
-            fetch(url)
-            .then(function (response) {
-                if (response.ok) {
-                    return response.text(); 
-                } else {
-                console.error("请求失败，状态码：" + response.status);
-                }
-            })
-            .then(function (data) {
-                localStorage.setItem('token',data);
-                window.location.href='index.html';
-            })
-            .catch(function (error) {
-                console.error("出现错误：" + error);
-            });
+            window.location.href='http://127.0.0.1:5500/Projects/';
+            // var name=document.querySelector('.username').value;
+            // localStorage.setItem('username',name);
+            // document.getElementById('loginForm').submit();
+            // var url="http://localhost:8080/user/back_infor?username="+name;
+            // fetch(url)
+            // .then(function (response) {
+            //     if (response.ok) {
+            //         return "响应"+response.text();
+            //     } else {
+            //     console.error("请求失败，状态码：" + response.status);
+            //     }
+            // })
+            // .then(function (data) {
+            //     localStorage.setItem('token',data);
+            //     window.location.href='index.html';
+            // })
+            // .catch(function (error) {
+            //     console.error("出现错误：" + error);
+            // });
         }
         function register(){
             localStorage.setItem('isroot',document.querySelector('.isroot').value);
@@ -134,7 +135,7 @@
             fetch(url)
             .then(function (response) {
                 if (response.ok) {
-                    return response.text(); 
+                    return "响应"+response.text(); 
                 } else {
                 console.error("请求失败，状态码：" + response.status);
                 }
