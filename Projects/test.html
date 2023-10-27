@@ -1,48 +1,30 @@
 <html>
-    <head>
-
-    </head>
+    <head></head>
     <body>
-        <form action="http://localhost:8080/user/login">
-            <input type="hidden" name="username" value="jim">
-            <input type="hidden" name="password" value="999">
-            <button onclick="submit">Submit</button>
-        </form>
-        <script>
-            function submit(){
-                fetch('http://localhost:8080/user/login',{
-                method:'POST',
-                body:JSON.stringify({username,passwd}),
-                headers:{
-                    'Content-Type': 'multipart/form-data'
-                }
-                })
-            // .then(Response=>Response.json())
-            // .then(data=>{
-            //     if(data.token){
-            //         localStorage.setItem('token',data.token);
-            //         window.location.href='index.html';
-            //     }
-            // })
-            // .catch(error=>{
-            //     console.error('Error:',error);
-            // })
-            }
-            function get(){
-                fetch('http://localhost:8080/user/login',{
-                method:'GET',
-                headers:{
-                    'Content-Type': 'multipart/form-data'
-                }
-                })
-                .then(Response=>Response.json())
-                .then(data=>{
-                    if(data.token){
-                        localStorage.setItem('token',data.token);
-                        window.location.href='index.html';
-                    }
-                })
-            }
-        </script>
+        <h1>test</h1>
+        <button onclick="submit()" style="font-size: large;">提交</button>
     </body>
+    <script>
+        function submit(){
+            var username=1;
+            var token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2OTgzOTkyNzgsImlhdCI6MTY5ODM5NTY3OCwiaXNzIjoienp3Iiwic3ViIjoidXNlciB0b2tlbiJ9.sc-qDSUUwKFhiS1BkWuPj28KLAcgbuwxA3Bt7eo97Zc";
+            var url="http://localhost:8080/user/back_infor?username="+username;
+            const FormData=new FormData(token);
+            fetch("http://localhost:8080/user/back_infor?username=1",{
+                method:GET,
+                body:FormData
+            }).then(response=>{
+                if(response.ok){
+                    return response.json();
+                }
+                else{
+                    return Promise.reject(response);
+                }
+            }).then(data=>{
+                console.log(data);
+            }).catch(error=>{
+                console.log(error);
+            })
+        }
+    </script>
 </html>
