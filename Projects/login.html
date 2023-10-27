@@ -56,7 +56,7 @@
     <div class="container">
         <h1>Welcome to Our Website</h1>
         <div class="form-container" id="loginDiv"style="display: none;">
-            <form action="http://localhost:8080/user/login" id="'loginForm'">
+            <form action="http://localhost:8080/user/login" id="loginForm" method="POST">
                 <label for="usernameLabel">用户名</label>
                 <input type="text" id="username" name="username" required/>
                 <br/>
@@ -67,7 +67,7 @@
             </form>
         </div>
         <div class="form-container" id="registerDiv" style="display: none;">
-            <form action="http://localhost:8080/user/register" id="registerForm">
+            <form action="http://localhost:8080/user/register" id="registerForm" method="POST">
                 <label for="usernameLabel">用户名</label>
                 <input type="text" id="username" name="username" required/>
                 <br>
@@ -104,49 +104,46 @@
             document.querySelector('.Words').innerHTML='<span>已有账号？</span><a id="Link" onclick="loginShow()"style="text-decoration: underline;color: blue;">登录</a>';
         }
         function login(){
-            window.location.href='http://127.0.0.1:5500/Projects/';
-            // var name=document.querySelector('.username').value;
-            // localStorage.setItem('username',name);
-            // document.getElementById('loginForm').submit();
-            // var url="http://localhost:8080/user/back_infor?username="+name;
-            // fetch(url)
-            // .then(function (response) {
-            //     if (response.ok) {
-            //         return "响应"+response.text();
-            //     } else {
-            //     console.error("请求失败，状态码：" + response.status);
-            //     }
-            // })
-            // .then(function (data) {
-            //     localStorage.setItem('token',data);
-            //     window.location.href='index.html';
-            // })
-            // .catch(function (error) {
-            //     console.error("出现错误：" + error);
-            // });
+            const FormData=new FormData(form);
+            fetch(form.action,{
+                method:POST,
+                body:FormData
+            })
+            .then(response => {
+                    if (response.ok) {
+                        return "内容"+response.text();
+                    } else {
+                        throw new Error("请求失败");
+                    }
+                })
+            .then(data => {
+                responseElement.textContent = "服务器响应: " + data;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+            window.location.href="index.html";
         }
         function register(){
-            localStorage.setItem('isroot',document.querySelector('.isroot').value);
-            localStorage.setItem('secure_level',document.querySelector('.secure_level').value);
-            var name=document.querySelector('.username').value;
-            localStorage.setItem('username',name);
-            document.getElementById('registerForm').submit();
-            var url="http://localhost:8080/user/back_infor?username="+name;
-            fetch(url)
-            .then(function (response) {
-                if (response.ok) {
-                    return "响应"+response.text(); 
-                } else {
-                console.error("请求失败，状态码：" + response.status);
-                }
+            const FormData=new FormData(form);
+            fetch(form.action,{
+                method:POST,
+                body:FormData
             })
-            .then(function (data) {
-                localStorage.setItem('token',data);
-                window.location.href='index.html';
+            .then(response => {
+                    if (response.ok) {
+                        return "内容:"+response.text();
+                    } else {
+                        throw new Error("请求失败");
+                    }
+                })
+            .then(data => {
+                responseElement.textContent = "服务器响应: " + data;
             })
-            .catch(function (error) {
-                console.error("出现错误：" + error);
+            .catch(error => {
+                console.error(error);
             });
+            window.location.href="index.html";
         }
     </script>
 </body>
