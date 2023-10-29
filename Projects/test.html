@@ -2,17 +2,20 @@
     <head></head>
     <body>
         <h1>test</h1>
-        <button onclick="submit()" style="font-size: large;">提交</button>
+        <!-- <form action="http://localhost:8080/user/back_infor?username=1" method="get">
+            <input type="hidden" name="token" value="1">
+            <button onclick="submit" style="font-size: large;">提交</button>
+        </form> -->
+        <button onclick="submits()">提交</button>
     </body>
     <script>
-        function submit(){
+        function submits(){
             var username=1;
             var token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2OTgzOTkyNzgsImlhdCI6MTY5ODM5NTY3OCwiaXNzIjoienp3Iiwic3ViIjoidXNlciB0b2tlbiJ9.sc-qDSUUwKFhiS1BkWuPj28KLAcgbuwxA3Bt7eo97Zc";
             var url="http://localhost:8080/user/back_infor?username="+username;
-            const FormData=new FormData(token);
             fetch("http://localhost:8080/user/back_infor?username=1",{
                 method:GET,
-                body:FormData
+                body:token
             }).then(response=>{
                 if(response.ok){
                     return response.json();
