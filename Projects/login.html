@@ -2,13 +2,13 @@
 <html>
 <head>
     <title>主页面</title>
+    <link rel="stylesheet" type="text/css" href="generic.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             text-align: center;
         }
-
         .container {
             max-width: 600px;
             margin: 0 auto;
@@ -16,35 +16,6 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn {
-            background: #007BFF;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            text-align: center;
-            margin: 2vh auto;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background: #0056b3;
-        }
-
-        .Register {
-            margin-top: 20px;
-        }
-
-        .Register a {
-            text-decoration: none;
-            color: #007BFF;
-            font-weight: bold;
-        }
-
-        .Register a:hover {
-            text-decoration: underline;
         }
         .form-container.active {
             display: block;
@@ -63,8 +34,8 @@
                 <label for="password">密&nbsp&nbsp&nbsp&nbsp码</label>
                 <input type="password" id="password" name="passwd" required/>
                 <br>
-                <button class="btn" onclick="login()">登录</button>
             </form>
+            <button class="btn" onclick="login()">登录</button>
         </div>
         <div class="form-container" id="registerDiv" style="display: none;">
             <form action="http://localhost:8080/user/register" id="registerForm" method="POST">
@@ -104,30 +75,26 @@
             document.querySelector('.Words').innerHTML='<span>已有账号？</span><a id="Link" onclick="loginShow()"style="text-decoration: underline;color: blue;">登录</a>';
         }
         function login(){
-            // 保存token到本地
-            const FormData=new FormData(form);
-            fetch(form.action,{
-                method:POST,
-                body:FormData
+            const formData=new FormData(document.getElementById('loginForm'));
+            fetch(loginForm.action,{
+                method:'POST',
+                mode: 'no-cors',
+                body:formData,
             })
-            .then(response=>response.txt)
-            .then(data=>data.txt)
-            // .then(response => {
-            //     localStorage.setItem("token",response.body.get("token"));
-            //         // if (response.ok) {
-            //         //     return "内容:"+response.text();
-            //         // } else {
-            //         //     throw new Error("请求失败");
-            //         // }
-            //     })
-            // .then(data => {
-            //     responseElement.textContent = "服务器响应: " + data;
-            // })
+            .then(response => {
+                console.log("response",response);
+            })
+            .then(data => {
+                console.log("data:",data);
+                // localStorage.setItem("token",data.token);
+                // window.location.href="index.html";
+            })
+            .then(otherData=>{
+                console.log("otherData:",otherData);
+            })
             .catch(error => {
                 console.error(error);
             });
-            
-            window.location.href="index.html";
         }
         function register(){
             const FormData=new FormData(form);

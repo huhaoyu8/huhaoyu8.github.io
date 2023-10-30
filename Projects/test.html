@@ -10,12 +10,14 @@
     </body>
     <script>
         function submits(){
-            var username=1;
-            var token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2OTgzOTkyNzgsImlhdCI6MTY5ODM5NTY3OCwiaXNzIjoienp3Iiwic3ViIjoidXNlciB0b2tlbiJ9.sc-qDSUUwKFhiS1BkWuPj28KLAcgbuwxA3Bt7eo97Zc";
-            var url="http://localhost:8080/user/back_infor?username="+username;
-            fetch("http://localhost:8080/user/back_infor?username=1",{
-                method:GET,
-                body:token
+            var tokens="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2OTgzOTkyNzgsImlhdCI6MTY5ODM5NTY3OCwiaXNzIjoienp3Iiwic3ViIjoidXNlciB0b2tlbiJ9.sc-qDSUUwKFhiS1BkWuPj28KLAcgbuwxA3Bt7eo97Zc";
+            var usrn="1";
+            fetch("http://localhost:8080/user/back_infor",{
+                method:POST,
+                body:{
+                    username:usrn,
+                    token:tokens
+                }
             }).then(response=>{
                 if(response.ok){
                     return response.json();
@@ -24,7 +26,8 @@
                     return Promise.reject(response);
                 }
             }).then(data=>{
-                console.log(data);
+                // 保存到本地
+                localStorage.setItem("token",data);
             }).catch(error=>{
                 console.log(error);
             })
