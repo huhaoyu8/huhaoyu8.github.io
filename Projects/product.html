@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>流量资产查看</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="generic.css">
     <style>
         table {
             border-collapse: collapse;
@@ -21,7 +21,7 @@
             background-color: #f2f2f2;
         }
 
-        button {
+        .btn {
             background-color: #008CBA;
             color: white;
             border: none;
@@ -32,7 +32,7 @@
             margin-right: 5px;
         }
 
-        button:hover {
+        .btn:hover {
             background-color: #005D80;
         }
         
@@ -56,24 +56,9 @@
             padding: 20px;
             z-index: 2;
         }
-        .btn {
-            background: #007BFF;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            text-align: center;
-            margin: 2vh auto;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background: #0056b3;
-        }
     </style>
 </head>
 <body>
-    <div id="overlay"></div>
     <form id="addForm">
         <label for="item">资产名称</label>
         <input type="text" id="pname" name="pname" required>
@@ -109,9 +94,10 @@
         <a style="font-size: large;">资产安全等级</a>
         <input type="number" name="secure_level"  style="font-size: large;" min="1" max="10" required>
         <input type="hidden" id="searchToken" name="token" value=""required>
-        <button class="btn" onclick="searchForm()">搜索</button>
+        &nbsp;&nbsp;
+        <button type="submit" id="searchButton">搜索</button>
     </form>
-    <button class="btn" onclick="addProduct()" style="position: absolute;right: 260px;top:8px;">添加资产</button>
+    <button onclick="addProduct()" style="position: absolute;right: 260px;top:8px;">添加资产</button>
     <table id="assetTable">
         <thead>
             <tr>
@@ -129,6 +115,92 @@
             <!-- 这里将通过JavaScript添加资产数据行 -->
         </tbody>
     </table>
-    <script src="script.js"></script>
+    <script>
+        document.getElementById('searchButton').addEventListener('click', function() {
+            event.preventDefault();
+        });
+
+        function submitForm(){
+            document.getElementById("tokeninput").value = localStorage.getItem("token");
+            document.getElementById("form").submit();
+            closeForm();
+        }
+
+        function searchForm(){
+            document.getElementById("searchToken").value = localStorage.getItem("token");
+            document.getElementById("searchForm").submit();
+        }
+
+        function addProduct(){
+            document.getElementById("overlay").style.display = "block";  
+            document.getElementById("addForm").action = "http://localhost:8080/property/upload";
+            document.getElementById("addForm").style.display = "block";
+            document.getElementById("submitOrupdate").textContent = "上传";
+        }
+
+        function updateProduct(){
+            document.getElementById("overlay").style.display = "block";  
+            document.getElementById("addForm").action = "http://localhost:8080/property/updata";
+            document.getElementById("submitOrupdate").textContent = "更新";
+            document.getElementById("addForm").style.display = "block";
+        }
+
+        function closeForm(){
+            document.getElementById("overlay").style.display = "none";
+            document.getElementById("addForm").style.display = "none";
+        }
+
+        // 获取表格的引用
+        const assetTable = document.getElementById("assetTable");
+
+        // 模拟30条资产数据
+        const assetData = [
+            ["资产1", "高", "2023-10-25 09:30:00", "是", "类别1", "品牌A", "部门X"]
+        ];
+
+        // 循环添加每条资产数据
+        for (let i = 0; i < assetData.length; i++) {
+            const data = assetData[i];
+            const newRow = assetTable.insertRow(i + 1); // 插入行
+
+            for (let j = 0; j < data.length; j++) {
+                const cell = newRow.insertCell(j);
+                cell.textContent = data[j];
+            }
+            // 添加"删除"按钮
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "btn";
+            deleteButton.textContent = "删除";
+            deleteButton.onclick = function() {
+                var ppt_id = newRow.cells[0].innerHTML;
+                var secure_level = newRow.cells[1].innerHTML;
+                var token=localStorage.getItem("token");
+                // post方法
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8080/property/delete",
+                    data: {
+                        ppt_id: ppt_id,
+                        secure_level: secure_level,
+                        token: token
+                    },
+                    success: function (data) {
+                        alert("删除成功");
+                        assetTable.deleteRow(newRow.rowIndex);
+                    },
+                    error: function (data) {
+                        alert("删除失败");
+                    }
+                });
+            };
+            newRow.insertCell(data.length).appendChild(deleteButton);
+            // 添加"更新"按钮
+            const updateButton = document.createElement("button");
+            updateButton.className = "btn";
+            updateButton.textContent = "更新";
+            updateButton.onclick = updateProduct;
+            newRow.insertCell(data.length + 1).appendChild(updateButton);
+        }
+    </script>
 </body>
 </html>

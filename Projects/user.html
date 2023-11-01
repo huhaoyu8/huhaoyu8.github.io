@@ -2,46 +2,25 @@
 <html>
 <head>
     <title>用户信息</title>
+    <link rel="stylesheet" type="text/css" href="generic.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
         }
-
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        }
         p {
             font-size: 16px;
-        }
-
-        button{
-            background: #007BFF;
-            color: #fff;
-            padding: 5px 30px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            margin: auto;
-        }
-
-        button:hover{
-            background: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>用户信息</h1>
-        <p><strong>用户名:</strong> JohnDoe</p>
+        <p><strong>用户id:</strong> 2021</p>
+        <p><strong>用户名:</strong> Jim</p>
+        <p><strong>用户密码:</strong> gh8xj5d21sf</p>
         <p><strong>是否为Root:</strong> 是</p>
-        <p><strong>安全等级:</strong> 高</p>
+        <p><strong>安全等级:</strong> 10</p>
         <input id="pwd_contaniner" type="text" placeholder="请输入更改后的密码" style="display: none;margin: 2vh auto;"></input>
         <button id="submitShowBtn" onclick="submitShow()">修改密码</button>
         <form id="formSubmit" action="http://localhost:8080/user/updatapasswd" style="display: none;">
@@ -49,8 +28,8 @@
             <input type="text" name="passwd" placeholder="请输入更改后的密码" style="margin: 2vh auto;" required></input>
             <input type="hidden" name="token" id="tokenInput" value="">
             <br>
-            <button onclick="submitForm()">提交</button>
-            <button onclick="cancelForm()" >取消</button>
+            <button onclick="cancelForm()" style='background-color:rgb(80, 80, 81);'>取消</button>
+            <button type="submit" id="submitButton">提交</button>
         </form>
     </div>
     <script>
@@ -62,40 +41,9 @@
             document.getElementById("formSubmit").style.display = "block";
             document.getElementById("submitShowBtn").style.display = "none";
         }
-        function submitForm(){
-            document.getElementById("usernameInput").value = localStorage.getItem('username');
-            document.getElementById("tokenInput").value = localStorage.getItem('token');
-            document.getElementById("formSubmit").submit();
-        }
-        // var btn = document.querySelector('.btn');
-        // var pwd_contaniner = document.querySelector('#pwd_contaniner');
-        // btn.onclick = function() {
-        //     if(btn.innerHTML == "提交") {
-        //         var username=localStorage.getItem('username');
-        //         var passwd=pwd_contaniner.value;
-        //         fetch('http://localhost:8080/user/updatapasswd',{
-        //             method:'POST',
-        //             body:JSON.stringify({username,passwd}),
-        //             headers:{
-        //                 'Content-Type': 'multipart/form-data'
-        //             }
-        //         })
-        //         .then(Response=>Response.json())
-        //         .then(data=>{
-        //             if(data.token){
-        //                 localStorage.setItem('token',data.token);
-        //             }
-        //         })
-        //         .catch(error=>{
-        //             console.error('Error:',error);
-        //         })
-        //         pwd_contaniner.style.display = 'none';
-        //         btn.innerHTML="修改密码";
-        //     }else if(btn.innerHTML == "修改密码") {
-        //         pwd_contaniner.style.display = 'block';
-        //         btn.innerHTML="提交";
-        //     }
-        // }
+        document.getElementById('submitButton').addEventListener('click', function() {
+            event.preventDefault();
+        });
     </script>
 </body>
 </html>

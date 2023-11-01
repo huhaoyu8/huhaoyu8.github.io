@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <title>主页面</title>
     <link rel="stylesheet" type="text/css" href="generic.css">
     <style>
@@ -27,18 +28,19 @@
     <div class="container">
         <h1>Welcome to Our Website</h1>
         <div class="form-container" id="loginDiv"style="display: none;">
-            <form action="http://localhost:8080/user/login" id="loginForm" method="POST">
+            <form action="http://47.115.201.216:8080/user/login" id="loginForm" method="POST">
                 <label for="usernameLabel">用户名</label>
                 <input type="text" id="username" name="username" required/>
                 <br/>
                 <label for="password">密&nbsp&nbsp&nbsp&nbsp码</label>
                 <input type="password" id="password" name="passwd" required/>
                 <br>
+                <!-- <button type="submit">登录</button> -->
             </form>
-            <button class="btn" onclick="login()">登录</button>
+            <button id="loginButton">登录</button>
         </div>
         <div class="form-container" id="registerDiv" style="display: none;">
-            <form action="http://localhost:8080/user/register" id="registerForm" method="POST">
+            <form action="http://47.115.201.216:8080/user/register" id="registerForm" method="POST">
                 <label for="usernameLabel">用户名</label>
                 <input type="text" id="username" name="username" required/>
                 <br>
@@ -52,10 +54,10 @@
                 <label for="securityLevel">安全等级</label>
                 <input type="number" id="secure_level" name="secure_level" min="1" max="10" required/>
                 <br>
-                <button class="btn" onclick="register()">注册</button>
+                <button id="register" type="submit">注册</button>
             </form>
         </div>
-        <button class="btn" id="Button"onclick="loginShow()">登录</button>
+        <button class="btn" id="Button" onclick="loginShow()">登录</button>
         <div class="Words">
             <span>还没有账号？</span>
             <a id="Link" onclick="registerShow()" style="text-decoration: underline;color: blue;">注册</a>
@@ -74,27 +76,54 @@
             document.getElementById('Button').style.display='none';
             document.querySelector('.Words').innerHTML='<span>已有账号？</span><a id="Link" onclick="loginShow()"style="text-decoration: underline;color: blue;">登录</a>';
         }
+        document.getElementById('loginButton').addEventListener('click',function() {
+            event.preventDefault();
+            login();
+        });
+        document.getElementById('register').addEventListener('click',function() {
+            event.preventDefault();
+        });
         function login(){
             const formData=new FormData(document.getElementById('loginForm'));
-            fetch(loginForm.action,{
-                method:'POST',
-                mode: 'no-cors',
-                body:formData,
-            })
-            .then(response => {
-                console.log("response",response);
-            })
-            .then(data => {
-                console.log("data:",data);
-                // localStorage.setItem("token",data.token);
-                // window.location.href="index.html";
-            })
-            .then(otherData=>{
-                console.log("otherData:",otherData);
-            })
-            .catch(error => {
-                console.error(error);
+            $.ajax({
+                url: 'http://47.115.201.216:8080/user/login',
+                data:{
+                    name:'1',
+                    passwd:'2'
+                },
+                method: 'POST', // 使用GET请求
+                dataType: 'jsonp', // 告诉jQuery期望的响应数据类型是JSON
+                success: function(data) {
+                    // 请求成功时执行的回调函数
+                    console.log('成功获取到JSON响应：', data);
+                    // 这里可以处理从服务器返回的JSON数据
+                },
+                error: function(xhr, status, error) {
+                    // 请求失败时执行的回调函数
+                    console.error('获取JSON响应失败：', status, error);
+                    // 这里可以处理错误情况
+                }
             });
+
+            // fetch(loginForm.action,{
+            //     method:'POST',
+            //     mode: 'no-cors',
+            //     body:formData,
+            // })
+            // .then(response => {
+            //     console.log("response",response);
+            // })
+            // .then(data => {
+            //     console.log("data:",data);
+            //     // localStorage.setItem("token",data.token);
+            //     // window.location.href="index.html";
+            // })
+            // .then(otherData=>{
+            //     console.log("otherData:",otherData);
+            // })
+            // .catch(error => {
+            //     console.error(error);
+            // });
         }
         function register(){
             const FormData=new FormData(form);
