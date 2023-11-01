@@ -40,7 +40,7 @@
             <button id="loginButton">登录</button>
         </div>
         <div class="form-container" id="registerDiv" style="display: none;">
-            <form action="http://47.115.201.216:8080/user/register" id="registerForm" method="POST">
+            <form action="http://127.0.0.1:8080/user/register" id="registerForm" method="POST">
                 <label for="usernameLabel">用户名</label>
                 <input type="text" id="username" name="username" required/>
                 <br>
@@ -85,60 +85,66 @@
         });
         function login(){
             const formData=new FormData(document.getElementById('loginForm'));
-            $.ajax({
-                url: 'http://47.115.201.216:8080/user/login',
-                data:{
-                    name:'1',
-                    passwd:'2'
-                },
-                method: 'POST', // 使用GET请求
-                dataType: 'jsonp', // 告诉jQuery期望的响应数据类型是JSON
-                success: function(data) {
-                    // 请求成功时执行的回调函数
-                    console.log('成功获取到JSON响应：', data);
-                    // 这里可以处理从服务器返回的JSON数据
-                },
-                error: function(xhr, status, error) {
-                    // 请求失败时执行的回调函数
-                    console.error('获取JSON响应失败：', status, error);
-                    // 这里可以处理错误情况
-                }
-            });
-
-            // fetch(loginForm.action,{
-            //     method:'POST',
-            //     mode: 'no-cors',
-            //     body:formData,
-            // })
-            // .then(response => {
-            //     console.log("response",response);
-            // })
-            // .then(data => {
-            //     console.log("data:",data);
-            //     // localStorage.setItem("token",data.token);
-            //     // window.location.href="index.html";
-            // })
-            // .then(otherData=>{
-            //     console.log("otherData:",otherData);
-            // })
-            // .catch(error => {
-            //     console.error(error);
+            // $.post('http://127.0.0.1:8080/user/login', { name: '1', passwd: '2' }, function(data) {
+            //     console.log('POST请求成功,服务器响应：', data);
+            // }).fail(function(xhr, status, error) {
+            //     console.error('POST请求失败:', status, error);
             // });
+
+            // $.ajax({
+            //     url: 'http://127.0.0.1:8080/user/login',
+            //     data:{
+            //         name:'1',
+            //         passwd:'2'
+            //     },
+            //     type: 'POST', // 使用GET请求
+            //     dataType: 'jsonp', // 告诉jQuery期望的响应数据类型是JSON
+            //     success: function(data) {
+            //         // 请求成功时执行的回调函数
+            //         console.log('成功获取到JSON响应：', data);
+            //         // 这里可以处理从服务器返回的JSON数据
+            //     },
+            //     error: function(xhr, status, error) {
+            //         // 请求失败时执行的回调函数
+            //         console.error('获取JSON响应失败：', status, error);
+            //         // 这里可以处理错误情况
+            //     }
+            // });
+
+            fetch('http://127.0.0.1:8080/user/login',{
+                method:'POST',
+                mode: 'no-cors',
+                body:formData,
+            })
+            .then((response) => { 
+                console.log("response:",1);
+                return response.json();
+            })
+            .then((json) => console.log(json))
+            .then(data => {
+                console.log("data:",data);
+                // localStorage.setItem("token",data.token);
+                // window.location.href="index.html";
+            })
+            .then(otherData=>{
+                console.log("otherData:",otherData);
+            })
+            .catch(error => {
+                console.error(error);
+            });
         }
         function register(){
             const FormData=new FormData(form);
             fetch(form.action,{
                 method:POST,
+                mode: 'no-cors',
                 body:FormData
             })
             .then(response => {
-                    if (response.ok) {
-                        return "内容:"+response.text();
-                    } else {
-                        throw new Error("请求失败");
-                    }
-                })
+                    console.log("response",response);
+            })
             .then(data => {
+                console.log("data:",data);
                 responseElement.textContent = "服务器响应: " + data;
             })
             .catch(error => {
