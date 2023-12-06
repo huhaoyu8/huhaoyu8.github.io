@@ -6,13 +6,14 @@
         <a href="./Projects/index.html">前端示意</a>
         <a href="./ICPC/index.html">ACM在线答题</a>
         <script>
-            // 设置链接的大小
-            const a = document.querySelector("a");
-            a.style.fontSize = "50px";
-            // 居中
-            a.style.position = "absolute";
-            a.style.left = "42%";
-            a.style.top = "42%";
+            var a = document.getElementsByTagName("a");
+            //自动排列
+            for(var i = 0;i < a.length;i++){
+                a[i].style.display = "block";
+                a[i].style.textAlign = "center";
+                a[i].style.fontSize = "xxx-large";
+                a[i].style.marginTop = "20px";
+            }
         </script>
     </body>
 </html>
