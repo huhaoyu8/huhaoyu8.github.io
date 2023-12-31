@@ -1,141 +1,142 @@
 <!DOCTYPE html>
+<html lang="cn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>在线答题</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-    }
-    header {
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      padding: 1em;
-    }
-    nav {
-      background-color: #444;
-      padding: 1em;
-      text-align: center;
-    }
-    nav button {
-      margin: 5px;
-      padding: 10px;
-      font-size: 16px;
-      background-color: #555;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-    nav button:hover {
-      background-color: #666;
-    }
-    #question-container {
-      display: none;
-      margin: 20px;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    #score-container {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      font-size: 18px;
-      color: #fff;
-    }
-    #timer-container {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 18px;
-      color: #fff;
-    }
-    #question-container p {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-    #question-container button {
-      display: block;
-      margin: 10px 0;
-      padding: 15px;
-      font-size: 18px;
-      width: 100%;
-      background-color: #555;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-    #question-container button:hover {
-      background-color: #666;
-    }
-    #answer-container {
-      display: none;
-      margin-top: 20px;
-      padding: 20px;
-      background-color: #eee;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    #finalScore-container {
-      display: none;
-      margin: 20px;
-      padding: 20px;
-      font-size: larger;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    #continue-button {
-      margin-top: 10px;
-      padding: 15px;
-      font-size: 18px;
-      background-color: #555;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-    #continue-button:hover {
-      background-color: #666;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACM在线答题</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1em;
+        }
+        nav {
+            background-color: #444;
+            padding: 1em;
+            text-align: center;
+        }
+        nav button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #555;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        nav button:hover {
+            background-color: #666;
+        }
+        #question-container {
+            display: none;
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #score-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 18px;
+            color: #fff;
+        }
+        #timer-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+            color: #fff;
+        }
+        #question-container p {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #question-container button {
+            display: block;
+            margin: 10px 0;
+            padding: 15px;
+            font-size: 18px;
+            width: 100%;
+            background-color: #555;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        #question-container button:hover {
+            background-color: #666;
+        }
+        #answer-container {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #eee;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #finalScore-container {
+            display: none;
+            margin: 20px;
+            padding: 20px;
+            font-size: larger;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #continue-button {
+            margin-top: 10px;
+            padding: 15px;
+            font-size: 18px;
+            background-color: #555;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        #continue-button:hover {
+            background-color: #666;
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <h1>在线答题</h1>
-  </header>
+<header>
+    <h1>ACM-ICPC协会在线答题</h1>
+</header>
 
-  <nav id="main-menu">
+<nav id="main-menu">
     <button onclick="loadQuestions('beginner.txt', 60)" style="font-size: 2vw;">入门题目</button>
-    <button onclick="loadQuestions('intermediate.txt', 90)"style="font-size: 2vw;">初级题目</button>
-    <button onclick="loadQuestions('advanced.txt', 120)"style="font-size: 2vw;">高级题目</button>
-  </nav>
+    <button onclick="loadQuestions('intermediate.txt', 90)" style="font-size: 2vw;">初级题目</button>
+    <button onclick="loadQuestions('advanced.txt', 120)" style="font-size: 2vw;">高级题目</button>
+</nav>
 
-  <div id="question-container">
+<div id="question-container">
     <!-- Questions will be displayed here -->
-  </div>
+</div>
 
-  <div id="timer-container" style="font-size: 2vw;">
+<div id="timer-container" style="font-size: 2vw;">
     倒计时: <span id="timer">0s</span>
-  </div>
+</div>
 
-  <div id="score-container" style="font-size: 2vw;">
+<div id="score-container" style="font-size: 2vw;">
     分数: <span id="score">0</span>
-  </div>
+</div>
 
-  <div id="answer-container">
+<div id="answer-container">
     <!-- Answers and explanations will be displayed here -->
     <button id="continue-button" onclick="showNextQuestion()">继续答题</button>
-  </div>
-  <div id="finalScore-container" style="display: none;">
-  </div>
+</div>
+<div id="finalScore-container" style="display: none;">
+</div>
 
-  <script>
+<script>
     let score = 0;
     let currentQuestionIndex = 0;
     let questions = [];
@@ -143,111 +144,111 @@
     let totalTimer;
 
     function loadQuestions(filename, totalTime) {
-      // Load questions from the specified file
-      fetch(filename)
-        .then(response => response.text())
-        .then(data => {
-          questions = parseQuestions(data);
-          showQuestion();
-          startTotalTimer(totalTime);
-        })
-        .catch(error => console.error('Error loading questions:', error));
-      
-      // Hide the main menu
-      document.getElementById('main-menu').style.display = 'none';
+        // Load questions from the specified file
+        fetch(filename)
+            .then(response => response.text())
+            .then(data => {
+                questions = parseQuestions(data);
+                showQuestion();
+                startTotalTimer(totalTime);
+            })
+            .catch(error => console.error('Error loading questions:', error));
+
+        // Hide the main menu
+        document.getElementById('main-menu').style.display = 'none';
     }
 
     function parseQuestions(data) {
-      // Parse questions from the text file
-      return data.split('\n').map(line => {
-        const [question, options, correctOption, explanation, timeLimit] = line.split('|');
-        return {
-          question,
-          options: options.split(','),
-          correctOption,
-          explanation,
-          timeLimit: parseInt(timeLimit) || 0, // Set default time limit to 0 if not provided
-        };
-      });
+        // Parse questions from the text file
+        return data.split('\n').map(line => {
+            const [question, options, correctOption, explanation, timeLimit] = line.split('|');
+            return {
+                question,
+                options: options.split(','),
+                correctOption,
+                explanation,
+                timeLimit: parseInt(timeLimit) || 0, // Set default time limit to 0 if not provided
+            };
+        });
     }
 
     function showQuestion() {
-      const questionContainer = document.getElementById('question-container');
-      const answerContainer = document.getElementById('answer-container');
-      const timerElement = document.getElementById('timer');
-      questionContainer.style.display = 'block';
-      questionContainer.innerHTML = '';
-      answerContainer.style.display = 'none';
+        const questionContainer = document.getElementById('question-container');
+        const answerContainer = document.getElementById('answer-container');
+        const timerElement = document.getElementById('timer');
+        questionContainer.style.display = 'block';
+        questionContainer.innerHTML = '';
+        answerContainer.style.display = 'none';
 
-      const scoreElement = document.getElementById('score');
-      scoreElement.style.fontSize = '2vw';
-      scoreElement.textContent = ` ${score}`;
+        const scoreElement = document.getElementById('score');
+        scoreElement.style.fontSize = '2vw';
+        scoreElement.textContent = ` ${score}`;
 
-      if (currentQuestionIndex < questions.length) {
-        const currentQuestion = questions[currentQuestionIndex];
+        if (currentQuestionIndex < questions.length) {
+            const currentQuestion = questions[currentQuestionIndex];
 
-        // Display the question
-        const questionElement = document.createElement('div');
-        questionElement.style.fontSize = '2vw';
-        questionElement.innerHTML = `<p>${currentQuestion.question}</p>`;
+            // Display the question
+            const questionElement = document.createElement('div');
+            questionElement.style.fontSize = '2vw';
+            questionElement.innerHTML = `<p>${currentQuestion.question}</p>`;
 
-        // Display options
-        for (let i = 0; i < currentQuestion.options.length; i++) {
-          const optionButton = document.createElement('button');
-          optionButton.innerText = currentQuestion.options[i];
-          optionButton.style.fontSize = '2vw';
-          optionButton.onclick = () => checkAnswer(i);
-          questionElement.appendChild(optionButton);
-        }
+            // Display options
+            for (let i = 0; i < currentQuestion.options.length; i++) {
+                const optionButton = document.createElement('button');
+                optionButton.innerText = currentQuestion.options[i];
+                optionButton.style.fontSize = '2vw';
+                optionButton.onclick = () => checkAnswer(i);
+                questionElement.appendChild(optionButton);
+            }
 
-        questionContainer.appendChild(questionElement);
+            questionContainer.appendChild(questionElement);
 
-        // Start the timer if there is a time limit
-        if (currentQuestion.timeLimit > 0) {
-          startTimer(currentQuestion.timeLimit, showTimeUp, timerElement);
+            // Start the timer if there is a time limit
+            if (currentQuestion.timeLimit > 0) {
+                startTimer(currentQuestion.timeLimit, showTimeUp, timerElement);
+            } else {
+                timerElement.textContent = '';
+            }
         } else {
-          timerElement.textContent = '';
+            // Display final score
+            showFinalScore();
+            clearTimeout(totalTimer);
         }
-      } else {
-        // Display final score
-        showFinalScore();
-        clearTimeout(totalTimer);
-      }
     }
 
     function checkAnswer(selectedOptionIndex) {
-      clearTimeout(timer); // Clear the timer when an answer is selected
+        clearTimeout(timer); // Clear the timer when an answer is selected
 
-      const currentQuestion = questions[currentQuestionIndex];
+        const currentQuestion = questions[currentQuestionIndex];
 
-      // Check if the selected option is correct
-      if (selectedOptionIndex === parseInt(currentQuestion.correctOption)) {
-        score++;
-      }
+        // Check if the selected option is correct
+        if (selectedOptionIndex === parseInt(currentQuestion.correctOption)) {
+            score++;
+        }
 
-      // Display answers and explanations
-      const answerContainer = document.getElementById('answer-container');
-      answerContainer.style.display = 'block';
-      answerContainer.style.fontSize = '2vw';
-      answerContainer.innerHTML = `<strong>答案：</strong> ${currentQuestion.explanation}<button id="continue-button" onclick="showNextQuestion() style="font-size: 2vw">继续答题</button>`;
+        // Display answers and explanations
+        const answerContainer = document.getElementById('answer-container');
+        answerContainer.style.display = 'block';
+        answerContainer.style.fontSize = '2vw';
+        answerContainer.innerHTML = `<strong>答案：</strong> ${currentQuestion.explanation}<button id="continue-button" onclick="showNextQuestion()" style="font-size: 2vw">继续答题</button>`;
     }
 
     function showTimeUp() {
-      clearTimeout(timer); // Clear the timer
-      showNextQuestion();
+        clearTimeout(timer); // Clear the timer
+        showNextQuestion();
     }
 
     function showFinalScore() {
-    const questionContainer = document.getElementById('question-container');
-      const answerContainer = document.getElementById('answer-container');
-      const scoreContainer = document.getElementById('score-container');
-      const finalScoreContainer = document.getElementById('finalScore-container');
-      questionContainer.style.display = 'none';
-      answerContainer.style.display = 'none';
-      scoreContainer.style.display = 'none';
-      finalScoreContainer.style.display = 'block';
-      finalScoreContainer.innerHTML = `<p style="font-size: 2vw">答题结束，你的最终分数是 ${score} 分。</p>
-      <button onclick="location.reload()"style="
+        const questionContainer = document.getElementById('question-container');
+        const answerContainer = document.getElementById('answer-container');
+        const scoreContainer = document.getElementById('score-container');
+        const finalScoreContainer = document.getElementById('finalScore-container');
+        questionContainer.style.display = 'none';
+        answerContainer.style.display = 'none';
+        scoreContainer.style.display = 'none';
+        finalScoreContainer.style.display = 'block';
+        finalScoreContainer.innerHTML = `<p style="font-size: 2vw">答题结束，你的最终分数是 ${score} 分。</p>
+      <button onclick="location.reload()" style="
         margin: 5px;
         padding: 10px;
         font-size: 2vw;
@@ -258,28 +259,28 @@
     }
 
     function showNextQuestion() {
-      currentQuestionIndex++;
-      showQuestion();
+        console.log('showNextQuestion');
+        currentQuestionIndex++;
+        showQuestion();
     }
 
     function startTotalTimer(totalTime) {
-      let timeRemaining = totalTime;
-      const timerElement = document.getElementById('timer');
-      
-      function updateTimer() {
-        timerElement.textContent = `${timeRemaining}s`;
-        timeRemaining--;
+        let timeRemaining = totalTime;
+        const timerElement = document.getElementById('timer');
 
-        if (timeRemaining < 0) {
-          clearTimeout(totalTimer);
-          showFinalScore();
-        } else {
-          totalTimer = setTimeout(updateTimer, 1000);
+        function updateTimer() {
+            timerElement.textContent = `${timeRemaining}s`;
+            timeRemaining--;
+
+            if (timeRemaining < 0) {
+                clearTimeout(totalTimer);
+                showFinalScore();
+            } else {
+                totalTimer = setTimeout(updateTimer, 1000);
+            }
         }
-      }
-      updateTimer();
+        updateTimer();
     }
-  </script>
-
+</script>
 </body>
 </html>
