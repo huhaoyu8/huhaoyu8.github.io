@@ -195,8 +195,8 @@
             // Display options
             for (let i = 0; i < currentQuestion.options.length; i++) {
                 const optionButton = document.createElement('button');
-                optionButton.innerText = currentQuestion.options[i];
                 optionButton.style.fontSize = '2vw';
+                optionButton.innerText = currentQuestion.options[i];
                 optionButton.onclick = () => checkAnswer(i);
                 questionElement.appendChild(optionButton);
             }
