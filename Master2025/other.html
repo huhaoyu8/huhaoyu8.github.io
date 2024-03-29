@@ -13,9 +13,19 @@
             }
         </style>
     </head>
-    <body> 
-        <h1 style="text-align: center;font-size: 50px;">帮助</h1>
-        <li>使用<font color="red">VPN</font>访问“导师口碑”(连接外网)</li>
-        <li>初试分数和复试分数均为<font color="red">23</font>年</li>
+    <body>
+        <div id="menu">
+            <h1 style="text-align: center;font-size: 50px;">帮助</h1>
+            使用为<span style="color: red; ">VPN</span>访问“导师口碑”(连接外网)
+            初试分数和复试分数均为<span style="color: red; ">23</span>年
+        </div>
+        <script>
+            var menu = document.getElementById("menu");
+            if (window.screen.width > 800) {
+                menu.style.fontSize = "1.5vw";
+            }else if (window.screen.width < 800) {
+                menu.style.fontSize = "5vw";
+            }
+    </script>
     </body>
 </html>
