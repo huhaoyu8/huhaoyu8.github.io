@@ -112,21 +112,21 @@
 </header>
 
 <nav id="main-menu">
-    <button onclick="loadQuestions('beginner.txt', 60)" style="font-size: 2vw;">入门题目</button>
-    <!-- <button onclick="loadQuestions('intermediate.txt', 90)" style="font-size: 2vw;">初级题目</button>
-    <button onclick="loadQuestions('advanced.txt', 120)" style="font-size: 2vw;">高级题目</button> -->
+    <button onclick="loadQuestions('beginner.txt', 60)" style="font-size: max(2vh,2vw);">入门题目</button>
+    <!-- <button onclick="loadQuestions('intermediate.txt', 90)" style="font-size: max(2vh,2vw);">初级题目</button>
+    <button onclick="loadQuestions('advanced.txt', 120)" style="font-size: max(2vh,2vw);">高级题目</button> -->
 </nav>
 
 <div id="question-container">
     <!-- Questions will be displayed here -->
 </div>
 
-<div id="timer-container" style="font-size: 2vw;">
+<div id="timer-container" style="font-size: max(2vh,2vw);">
     倒计时: <span id="timer">0s</span>
 </div>
 
-<div id="score-container" style="font-size: 2vw;">
-    分数: <span id="score">0</span>
+<div id="score-container" style="font-size: max(2vh,2vw);">
+    分数: <span id="score" >0</span>
 </div>
 
 <div id="answer-container">
@@ -181,7 +181,7 @@
         answerContainer.style.display = 'none';
 
         const scoreElement = document.getElementById('score');
-        scoreElement.style.fontSize = '2vw';
+        scoreElement.style.fontSize = 'max(2vh,2vw)';
         scoreElement.textContent = ` ${score}`;
 
         if (currentQuestionIndex < questions.length) {
@@ -189,13 +189,13 @@
 
             // Display the question
             const questionElement = document.createElement('div');
-            questionElement.style.fontSize = '2vw';
+            questionElement.style.fontSize = 'max(2vh,2vw)';
             questionElement.innerHTML = `<p>${currentQuestion.question}</p>`;
 
             // Display options
             for (let i = 0; i < currentQuestion.options.length; i++) {
                 const optionButton = document.createElement('button');
-                optionButton.style.fontSize = '2vw';
+                optionButton.style.fontSize = 'max(2vh,2vw)';
                 optionButton.innerText = currentQuestion.options[i];
                 optionButton.onclick = () => checkAnswer(i);
                 questionElement.appendChild(optionButton);
@@ -229,8 +229,8 @@
         // Display answers and explanations
         const answerContainer = document.getElementById('answer-container');
         answerContainer.style.display = 'block';
-        answerContainer.style.fontSize = '2vw';
-        answerContainer.innerHTML = `<strong>答案：</strong> ${currentQuestion.explanation}<button id="continue-button" onclick="showNextQuestion()" style="font-size: 2vw">继续答题</button>`;
+        answerContainer.style.fontSize = 'max(2vh,2vw)';
+        answerContainer.innerHTML = `<strong>答案：</strong> ${currentQuestion.explanation}<button id="continue-button" onclick="showNextQuestion()" style="font-size: max(2vh,2vw)">继续答题</button>`;
     }
 
     function showTimeUp() {
