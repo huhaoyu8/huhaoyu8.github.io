@@ -18,26 +18,26 @@
             padding: 1em;
         }
         nav {
-            background-color: #444;
-            padding: 1em;
+            background-color: #cccccc;
+            padding: 0.8em;
             text-align: center;
         }
         nav button {
             margin: 5px;
             padding: 10px;
-            font-size: 16px;
+            font-size: max(2vh,2vw);
             background-color: #555;
             color: #fff;
             border: none;
             cursor: pointer;
         }
         nav button:hover {
-            background-color: #666;
+            background-color: rgba(0,0,0,0.15);
         }
         #question-container {
             display: none;
-            margin: 20px;
-            padding: 20px;
+            margin: 5px 20px 20px 20px;
+            padding: 1px 20px 3px 20px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -49,7 +49,7 @@
             font-size: 18px;
             color: #fff;
         }
-        #timer-container {
+        #TimerOrQuestion-container {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -72,7 +72,7 @@
             cursor: pointer;
         }
         #question-container button:hover {
-            background-color: #666;
+            background-color: #cccccc;
         }
         #answer-container {
             display: none;
@@ -108,21 +108,22 @@
 <body>
 
 <header>
-    <h1>ACM-ICPC协会在线答题</h1>
+    <h1 style="font-size: max(3vh,2vw)">ACM-ICPC协会在线答题</h1>
 </header>
 
 <nav id="main-menu">
-    <button onclick="loadQuestions('beginner.txt', 60)" style="font-size: max(2vh,2vw);">入门题目</button>
-    <!-- <button onclick="loadQuestions('intermediate.txt', 90)" style="font-size: max(2vh,2vw);">初级题目</button>
-    <button onclick="loadQuestions('advanced.txt', 120)" style="font-size: max(2vh,2vw);">高级题目</button> -->
+    <button onclick="loadQuestions('beginner.txt', 60,'Time')" style="font-size: max(2vh,2vw);">限时60秒</button>
+     <button onclick="loadQuestions('beginner.txt', 30,'Question')" style="font-size: max(2vh,2vw);">限量30道</button>
+    <button onclick="loadQuestions('beginner.txt', 3600,'none')" style="font-size: max(2vh,2vw);">不限时不限量</button>
 </nav>
 
 <div id="question-container">
     <!-- Questions will be displayed here -->
 </div>
 
-<div id="timer-container" style="font-size: max(2vh,2vw);">
-    倒计时: <span id="timer">0s</span>
+<div id="TimerOrQuestion-container" style="font-size: max(2vh,2vw);">
+    <span id="timer" style="display: none"></span>
+    <span id="question" style="display: none"></span>
 </div>
 
 <div id="score-container" style="font-size: max(2vh,2vw);">
@@ -131,7 +132,6 @@
 
 <div id="answer-container">
     <!-- Answers and explanations will be displayed here -->
-    <button id="continue-button" onclick="showNextQuestion()">继续答题</button>
 </div>
 <div id="finalScore-container" style="display: none;">
 </div>
@@ -142,24 +142,33 @@
     let questions = [];
     let timer;
     let totalTimer;
+    let LimitWhat = "";
+    let questionLimit = 0;
 
-    function loadQuestions(filename, totalTime) {
-        // Load questions from the specified file
+    function loadQuestions(filename, totalLimit,Limit) {
+        //从文件加载问题
         fetch(filename)
             .then(response => response.text())
             .then(data => {
                 questions = parseQuestions(data);
+                LimitWhat = Limit;
+                questionLimit = totalLimit;
+                if(Limit==="Time") {
+                    document.getElementById('TimerOrQuestion-container').getElementsByTagName('span')[0].style.display = 'block';
+                    startTotalTimer(totalLimit);
+                }
+                else if (Limit==="Question"){
+                    document.getElementById('TimerOrQuestion-container').getElementsByTagName('span')[1].style.display = 'block';
+                }
                 showQuestion();
-                startTotalTimer(totalTime);
             })
             .catch(error => console.error('Error loading questions:', error));
-
-        // Hide the main menu
+        // 隐藏主菜单
         document.getElementById('main-menu').style.display = 'none';
     }
 
     function parseQuestions(data) {
-        // Parse questions from the text file
+        // 从文件中解析问题
         return data.split('\n').map(line => {
             const [question, options, correctOption, explanation, timeLimit] = line.split('|');
             return {
@@ -173,44 +182,34 @@
     }
 
     function showQuestion() {
-        const questionContainer = document.getElementById('question-container');
-        const answerContainer = document.getElementById('answer-container');
-        const timerElement = document.getElementById('timer');
-        questionContainer.style.display = 'block';
-        questionContainer.innerHTML = '';
-        answerContainer.style.display = 'none';
+        document.getElementById('question-container').style.display = 'block';
+        document.getElementById('question-container').innerHTML = '';
+        document.getElementById('answer-container').style.display = 'none';
+        document.getElementById('score').style.fontSize = 'max(2vh,2vw)';
+        document.getElementById('score').textContent = ` ${score}`;
 
-        const scoreElement = document.getElementById('score');
-        scoreElement.style.fontSize = 'max(2vh,2vw)';
-        scoreElement.textContent = ` ${score}`;
-
-        if (currentQuestionIndex < questions.length) {
+        if (currentQuestionIndex < Math.min(questions.length,questionLimit)) {
             const currentQuestion = questions[currentQuestionIndex];
-
-            // Display the question
+            //显示问题
             const questionElement = document.createElement('div');
-            questionElement.style.fontSize = 'max(2vh,2vw)';
-            questionElement.innerHTML = `<p>${currentQuestion.question}</p>`;
-
-            // Display options
+            questionElement.innerHTML = `<p style="font-size:max(3.5vh,2vw) ">${currentQuestion.question}</p>`;
+            //显示选项
             for (let i = 0; i < currentQuestion.options.length; i++) {
                 const optionButton = document.createElement('button');
-                optionButton.style.fontSize = 'max(2vh,2vw)';
+                optionButton.style.fontSize = 'max(3.5vh,2vw)';
                 optionButton.innerText = currentQuestion.options[i];
                 optionButton.onclick = () => checkAnswer(i);
                 questionElement.appendChild(optionButton);
             }
+            document.getElementById('question-container').appendChild(questionElement);
 
-            questionContainer.appendChild(questionElement);
-
-            // Start the timer if there is a time limit
-            if (currentQuestion.timeLimit > 0) {
-                startTimer(currentQuestion.timeLimit, showTimeUp, timerElement);
-            } else {
-                timerElement.textContent = '';
+            //显示剩余题目量
+            if (LimitWhat==="Question") {
+                document.getElementById('question').textContent =
+                    `剩余数量:${Math.min(questions.length,questionLimit) - currentQuestionIndex}个`;
             }
         } else {
-            // Display final score
+            // 显示最终得分
             showFinalScore();
             clearTimeout(totalTimer);
         }
@@ -218,19 +217,13 @@
 
     function checkAnswer(selectedOptionIndex) {
         clearTimeout(timer); // Clear the timer when an answer is selected
-
         const currentQuestion = questions[currentQuestionIndex];
-
-        // Check if the selected option is correct
-        if (selectedOptionIndex === parseInt(currentQuestion.correctOption)) {
-            score++;
-        }
-
-        // Display answers and explanations
+        if (selectedOptionIndex === parseInt(currentQuestion.correctOption)) { score++; }
         const answerContainer = document.getElementById('answer-container');
         answerContainer.style.display = 'block';
         answerContainer.style.fontSize = 'max(2vh,2vw)';
-        answerContainer.innerHTML = `<strong>答案：</strong> ${currentQuestion.explanation}<button id="continue-button" onclick="showNextQuestion()" style="font-size: max(2vh,2vw)">继续答题</button>`;
+        answerContainer.innerHTML = `<strong>答案：</strong> ${currentQuestion.explanation}<button id="continue-button"
+                onclick="showNextQuestion()" style="padding: 1vh 3vw 1vh 3vw; font-size: max(2vh,2vw)">继续答题</button>`;
     }
 
     function showTimeUp() {
@@ -247,11 +240,11 @@
         answerContainer.style.display = 'none';
         scoreContainer.style.display = 'none';
         finalScoreContainer.style.display = 'block';
-        finalScoreContainer.innerHTML = `<p style="font-size: 2vw">答题结束，你的最终分数是 ${score} 分。</p>
+        finalScoreContainer.innerHTML = `<p style="text-align: center;font-size: max(4vh,2vw)">答题结束<br>你的最终分数是 ${score} 分</p>
       <button onclick="location.reload()" style="
-        margin: 5px;
+        margin: auto;
         padding: 10px;
-        font-size: 2vw;
+        font-size: max(4vh,2vw);
         background-color: #555;
         color: #fff;
         border: none;
@@ -259,24 +252,21 @@
     }
 
     function showNextQuestion() {
-        console.log('showNextQuestion');
         currentQuestionIndex++;
         showQuestion();
     }
 
     function startTotalTimer(totalTime) {
-        let timeRemaining = totalTime;
+        let timeRemaining = totalTime*10;
         const timerElement = document.getElementById('timer');
-
         function updateTimer() {
-            timerElement.textContent = `${timeRemaining}s`;
+            timerElement.textContent = `倒计时:${Math.ceil(timeRemaining/10)}s`;
             timeRemaining--;
-
             if (timeRemaining < 0) {
                 clearTimeout(totalTimer);
                 showFinalScore();
             } else {
-                totalTimer = setTimeout(updateTimer, 1000);
+                totalTimer = setTimeout(updateTimer, 100);
             }
         }
         updateTimer();
