@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+    <meta charset="x-UTF-16LE-BOM">
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: rgba(36,137,19,0.6);
+        }
+        li {
+            float: left;
+        }
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        li a:hover {
+            background-color: #007BFF;
+        }
+    </style>
+    <title>远古助手</title>
+</head>
+<body style="user-select: none">
+    <div style="font-size: 5vw;margin: auto;" id="menu">
+        <ul>
+            <li><a href="./main.html" target="frame">主页</a></li>
+            <li><a href="https://docs.qq.com/form/page/sequence/DUXN0anlhRE5yQ0F5" target="frame">领地汇总</a></li>
+            <li><a href="https://docs.qq.com/form/page/sequence/DUU50ZlVxdktPdEJ4" target="frame">帮派汇总</a></li>
+            <li><a href="https://docs.qq.com/sheet/DUW5lcXpzT1p4QmZO?tab=BB08J2" target="frame">物价规定</a></li>
+            <li><a href="https://slimefun-helper.guizhanss.net/" target="frame">粘液助手</a></li>
+            <li><a href="https://www.coreages.com/" target="frame">远古官网</a></li>
+        </ul>
+    </div>
+    <div style="flex: 1">
+        <iframe src="./main.html" name="frame" style="border: none" width="100%" height="1000px"></iframe>
+    </div>
+    <script>
+        const frame = document.getElementsByName("frame")[0];
+        const menu = document.getElementById("menu");
+        if (window.screen.width > 800) {
+            frame.height = window.innerHeight*0.87;
+            menu.style.fontSize = "1.5vw";
+        }else if (window.screen.width < 800) {
+            frame.height = window.innerHeight*0.8;
+            menu.style.fontSize = "5vw";
+        }
+    </script>
+</body>
+</html>
