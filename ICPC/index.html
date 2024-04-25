@@ -168,8 +168,8 @@
     }
 
     function parseQuestions(data) {
-        // 从文件中解析问题
-        return data.split('\n').map(line => {
+        // 从文件中解析问题，把题目顺序随机化
+        let questions = data.split('\n').map(line => {
             const [question, options, correctOption, explanation, timeLimit] = line.split('|');
             return {
                 question,
@@ -179,6 +179,19 @@
                 timeLimit: parseInt(timeLimit) || 0, // Set default time limit to 0 if not provided
             };
         });
+        // 随机化题目顺序
+        questions = questions.sort(() => Math.random() - 0.5);
+        return questions;
+        // return data.split('\n').map(line => {
+        //     const [question, options, correctOption, explanation, timeLimit] = line.split('|');
+        //     return {
+        //         question,
+        //         options: options.split(','),
+        //         correctOption,
+        //         explanation,
+        //         timeLimit: parseInt(timeLimit) || 0, // Set default time limit to 0 if not provided
+        //     };
+        // });
     }
 
     function showQuestion() {
